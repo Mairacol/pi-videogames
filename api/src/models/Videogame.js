@@ -1,15 +1,15 @@
 const { DataTypes } = require('sequelize');
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
-module.exports = (sequelize) => {
+  module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('Videogame', {
+  const Videogame = sequelize.define('Videogame', {
     id:{
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey:true,
     },
-    name: {
+    Name: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
@@ -36,7 +36,13 @@ module.exports = (sequelize) => {
       },
     },
     Rating:{
-      type: DataTypes.DECIMAL(3, 2),
+      type: DataTypes.DECIMAL,
     },
   });
+    // Método estático create, esto es agregado 
+    Videogame.createVideogame = async (name) => {
+      const newVideogame = await Videogame.create({ Name: name });
+      return newVideogame;
+    };
+    return Videogame;
 };

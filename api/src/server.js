@@ -1,15 +1,34 @@
 const express = require("express");
-
 const server = express();
-const { Videogame } = require("./db");
+const createGenres = require("./controllers/createGenres");
+const findAllGenres = require("./controllers/findAllGenres");
+const { Genres} = require ("./db");
+server.use(express.json());
 
-server.get("/videogame", (req, res) =>{
-    res.send("información sobre todos los videojuegos");
+server.get("/videogames", (req, res) => {
+    res.send("Información sobre todos los videojuegos");
 });
-//server.post("/api/src/models/Videogame.js", (req, res) =>{
 
-//});
-//server.get("/api/src/models/Genres.js", () =>{
-   // const Genres = Genres.findAll()
-//});
+server.get("/Genres", async (req, res) => {
+    try {
+        const Genres = await findAllGenres();
+        res.status(200).json(Genres);
+    } catch (error) {
+        console.error('Error find all Genres:', error);
+        res.status(500).json({ error: error.message });
+        
+    }
+});
+
+server.post("/Genres", async (req, res) => {
+    try {
+        const { Name } = req.body;
+        const newGenres = await createGenres(Name);
+        res.status(201).json(newGenres);
+    } catch (error) {
+        console.error('Error creating Genres:', error);
+        res.status(400).json({ error: error.message });
+    }
+});
+
 module.exports = server;

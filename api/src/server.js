@@ -6,6 +6,7 @@ const findAllGenres = require("./controllers/findAllGenres");
 const findAllVideogame = require("./controllers/findAllVideogame");
 const findVideogameById = require("./controllers/findVideogameById");
 const findVideogameByName = require("./controllers/findVideogameByName");
+const deleteVideogame = require("./controllers/deleteVideogame");
 //const { Genres, videogame} = require ("./db");
 
 const Videogame = require("./models/Videogame");
@@ -105,6 +106,16 @@ server.post("/Genres", async (req, res) => {
         //console.error('Error creating Genres:', error);
         res.status(400).json({ error: error.message });
     }
+});
+
+server.delete("/Videogame/:id",(req, res )=>{
+    const {id} = req.params;
+try{
+const  deletedVideogame = deleteVideogame(id);
+res.status(200).json(deletedVideogame);
+}catch (error){
+    res.status(400).json({ error: error.message });
+}
 });
 
 module.exports = server;

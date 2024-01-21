@@ -12,7 +12,7 @@ const findVideogameById = async(id) =>{
 
     });
 
-    if (!Videogame) throw Error ( "Videogame no existe" );
+    if (!videogame) throw Error ( "Videogame no existe" );
     return videogame;
 }
 
